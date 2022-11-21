@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -54,6 +56,31 @@ class TimerView extends StatefulWidget {
 class _TimerViewState extends State<TimerView> {
 
   int _tiempo = 0;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), (_) { 
+      _tiempo++;
+      setState(() {});
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant TimerView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("old: ${oldWidget.color}");
+    print("current: ${widget.color}");
+
+    if(oldWidget.color != widget.color) {
+      print('Si son distintos');
+      _tiempo = 0;
+    } else {
+      print('Los colores son iguales');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Text('$_tiempo', style: TextStyle(fontSize: 50, color: widget.color));
